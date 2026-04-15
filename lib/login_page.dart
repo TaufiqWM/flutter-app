@@ -118,7 +118,7 @@ class LoginPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 40),
 
-                  // Input Username
+                  // Input Email /Nik
                   _buildTextField(
                     controller: username,
                     label: "Email / Nik",
