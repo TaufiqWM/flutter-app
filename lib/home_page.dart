@@ -5,7 +5,7 @@ import 'package:flutter_myapp/widgets/bottomnav_global.dart';
 import 'package:flutter_myapp/services/auth_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
-import 'map_page.dart';
+//import 'map_page.dart';
 import 'camera_check_page.dart';
 import 'dart:async';
 
@@ -49,41 +49,41 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-  Future<void> getLocation() async {
-    try {
-      debugPrint("START GET LOCATION");
-      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      debugPrint("Service Enabled: $serviceEnabled");
-      if (!serviceEnabled) {
-        debugPrint("GPS MATI");
-        return;
-      }
-      LocationPermission permission = await Geolocator.checkPermission();
-      debugPrint("Permission: $permission");
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        debugPrint("Request Permission: $permission");
-      }
-      if (permission == LocationPermission.deniedForever) {
-        debugPrint("Permission DENIED FOREVER");
-        return;
-      }
-      Position pos = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
-      debugPrint("LAT: ${pos.latitude}, LNG: ${pos.longitude}");
-      setState(() {
-        position = pos;
-      });
-    } catch (e) {
-      debugPrint("ERROR LOCATION: $e");
-    }
-  }
+  // Future<void> getLocation() async {
+  //   try {
+  //     debugPrint("START GET LOCATION");
+  //     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  //     debugPrint("Service Enabled: $serviceEnabled");
+  //     if (!serviceEnabled) {
+  //       debugPrint("GPS MATI");
+  //       return;
+  //     }
+  //     LocationPermission permission = await Geolocator.checkPermission();
+  //     debugPrint("Permission: $permission");
+  //     if (permission == LocationPermission.denied) {
+  //       permission = await Geolocator.requestPermission();
+  //       debugPrint("Request Permission: $permission");
+  //     }
+  //     if (permission == LocationPermission.deniedForever) {
+  //       debugPrint("Permission DENIED FOREVER");
+  //       return;
+  //     }
+  //     Position pos = await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.high,
+  //     );
+  //     debugPrint("LAT: ${pos.latitude}, LNG: ${pos.longitude}");
+  //     setState(() {
+  //       position = pos;
+  //     });
+  //   } catch (e) {
+  //     debugPrint("ERROR LOCATION: $e");
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
-    getLocation();
+    //getLocation();
     startClock();
     getProfile();
   }
@@ -96,25 +96,25 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-    void openMap(String type) {
-    if (position == null) return;
-    setState(() {
-      status = type == "CHECK IN"
-          ? "Sudah Check In"
-          : "Sudah Check Out";
-    });
+  //   void openMap(String type) {
+  //   if (position == null) return;
+  //   setState(() {
+  //     status = type == "CHECK IN"
+  //         ? "Sudah Check In"
+  //         : "Sudah Check Out";
+  //   });
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => MapPage(
-          lat: position!.latitude,
-          lng: position!.longitude,
-          type: type,
-        ),
-      ),
-    );
-  }
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (_) => MapPage(
+  //         lat: position!.latitude,
+  //         lng: position!.longitude,
+  //         type: type,
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget profileCard() {
   debugPrint("Error: ${errorMsg}");
@@ -414,7 +414,15 @@ Widget _announcementCard() {
       floatingActionButton: _currentIndex == 0
         ? FABGlobal(
             onPressed: () {
-              openMap(status == "Belum Check In" ? "CHECK IN" : "CHECK OUT");
+              //openMap(status == "Belum Check In" ? "CHECK IN" : "CHECK OUT");
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => CameraCheckPage(
+                    type: status == "Belum Check In" ? "CHECK IN" : "CHECK OUT",
+                  ),
+                ),
+              );
             },
             status : status
           )
