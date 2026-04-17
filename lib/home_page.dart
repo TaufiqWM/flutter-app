@@ -6,6 +6,7 @@ import 'package:flutter_myapp/services/auth_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'map_page.dart';
+import 'camera_check_page.dart';
 import 'dart:async';
 
 class HomePage extends StatefulWidget {
@@ -429,7 +430,15 @@ Widget _announcementCard() {
           });
         },
         onCheckIn: () {
-          openMap(status == "Belum Check In" ? "CHECK IN" : "CHECK OUT");
+          //openMap(status == "Belum Check In" ? "CHECK IN" : "CHECK OUT");
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => CameraCheckPage(
+                type: status == "Belum Check In" ? "CHECK IN" : "CHECK OUT",
+              ),
+            ),
+          );
         },
       ),
     );
