@@ -1,10 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AuthService {
-  //static const String baseUrl = "http://10.103.1.115/konsol/api";
-  static const String baseUrl = "https://konsol.anugrahpratama.com/api";
+  static bool get isRelease => bool.fromEnvironment('dart.vm.product');
+  static String get baseUrl {
+    if (isRelease) { return dotenv.env['BASE_URL_PROD'] ?? ""; } 
+    else { return dotenv.env['BASE_URL_DEV'] ?? ""; }
+  }
 
   /// =========================
   /// LOGIN
@@ -62,7 +66,6 @@ class AuthService {
   /// =========================
   static Future<Map<String, String>> getAuthHeader() async {
     final token = await getToken();
-
     return {
       "Content-Type": "application/json",
       "Authorization": "Bearer $token",
@@ -82,7 +85,6 @@ class AuthService {
   /// =========================
   static Future<http.Response> get(String endpoint) async {
     final headers = await getAuthHeader();
-
     return await http.get(
       Uri.parse("$baseUrl/$endpoint"),
       headers: headers,
@@ -92,7 +94,6 @@ class AuthService {
   static Future<Map<String, dynamic>> getJson(String endpoint) async {
   final response = await get(endpoint);
   final data = jsonDecode(response.body);
-
   if (response.statusCode == 200 && data["success"] == true) {
     return data;
   }
@@ -111,7 +112,6 @@ class AuthService {
     Map<String, dynamic> body,
   ) async {
     final headers = await getAuthHeader();
-
     return await http.post(
       Uri.parse("$baseUrl/$endpoint"),
       headers: headers,

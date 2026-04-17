@@ -21,7 +21,6 @@ class _HomePageState extends State<HomePage> {
   String status = "Belum Check In";
   int _currentIndex = 0;
   Map<String, dynamic>? profile;
-  bool isLoading = true;
   String errorMsg = "";
 
   Future<void> refreshData() async {
@@ -41,12 +40,10 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       profile = data["data"];
       debugPrint("HRIS profile: ${profile}");
-      isLoading = false;
     });
   } catch (e) {
     setState(() {
       errorMsg = e.toString();
-      isLoading = false;
     });
   }
 }
@@ -119,9 +116,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget profileCard() {
-  if (isLoading) {
-    return CircularProgressIndicator();
-  }
   debugPrint("Error: ${errorMsg}");
   return Container(
     width: double.infinity, 
