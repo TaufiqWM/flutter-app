@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:intl/intl.dart';
 
 class CameraCheckPage extends StatefulWidget {
   final String type;
@@ -50,14 +51,12 @@ class _CameraCheckPageState extends State<CameraCheckPage> {
 
     lat = position.latitude.toString();
     lng = position.longitude.toString();
+    
+    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
 
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(position.latitude, position.longitude);
+    address = "${placemarks.first.street}, ${placemarks.first.subLocality}, ${placemarks.first.locality}";
 
-    address =
-        "${placemarks.first.street}, ${placemarks.first.subLocality}, ${placemarks.first.locality}";
-
-    time = TimeOfDay.now().format(context);
+    time = DateFormat('HH:mm').format(DateTime.now());
 
     setState(() {});
   }

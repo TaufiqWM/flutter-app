@@ -38,9 +38,10 @@ class LoginPage extends StatelessWidget {
       password.text,
     );
     final nik = await AuthService.getNik();
-    debugPrint("HRIS success : ${success}");
-    debugPrint("HRIS NIK : ${nik}");
+    debugPrint("HRIS success : $success");
+    debugPrint("HRIS NIK : $nik");
 
+    if (!context.mounted) return;
     Navigator.pop(context);
 
     if (success) {

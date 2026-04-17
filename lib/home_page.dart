@@ -34,13 +34,13 @@ class _HomePageState extends State<HomePage> {
   Future<void> getProfile() async {
   try {
     final nik = await AuthService.getNik();
-    final data = await AuthService.getJson("profiledit?nik=${nik}");
-    debugPrint("HRIS nik: ${nik}");
-    debugPrint("HRIS response: ${data}");
+    final data = await AuthService.getJson("profiledit?nik=$nik");
+    debugPrint("HRIS nik: $nik");
+    debugPrint("HRIS response: $data");
 
     setState(() {
       profile = data["data"];
-      debugPrint("HRIS profile: ${profile}");
+      debugPrint("HRIS profile: $profile");
     });
   } catch (e) {
     setState(() {
@@ -49,41 +49,41 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-  // Future<void> getLocation() async {
-  //   try {
-  //     debugPrint("START GET LOCATION");
-  //     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  //     debugPrint("Service Enabled: $serviceEnabled");
-  //     if (!serviceEnabled) {
-  //       debugPrint("GPS MATI");
-  //       return;
-  //     }
-  //     LocationPermission permission = await Geolocator.checkPermission();
-  //     debugPrint("Permission: $permission");
-  //     if (permission == LocationPermission.denied) {
-  //       permission = await Geolocator.requestPermission();
-  //       debugPrint("Request Permission: $permission");
-  //     }
-  //     if (permission == LocationPermission.deniedForever) {
-  //       debugPrint("Permission DENIED FOREVER");
-  //       return;
-  //     }
-  //     Position pos = await Geolocator.getCurrentPosition(
-  //       desiredAccuracy: LocationAccuracy.high,
-  //     );
-  //     debugPrint("LAT: ${pos.latitude}, LNG: ${pos.longitude}");
-  //     setState(() {
-  //       position = pos;
-  //     });
-  //   } catch (e) {
-  //     debugPrint("ERROR LOCATION: $e");
-  //   }
-  // }
+  Future<void> getLocation() async {
+    try {
+      debugPrint("START GET LOCATION");
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      debugPrint("Service Enabled: $serviceEnabled");
+      if (!serviceEnabled) {
+        debugPrint("GPS MATI");
+        return;
+      }
+      LocationPermission permission = await Geolocator.checkPermission();
+      debugPrint("Permission: $permission");
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        debugPrint("Request Permission: $permission");
+      }
+      if (permission == LocationPermission.deniedForever) {
+        debugPrint("Permission DENIED FOREVER");
+        return;
+      }
+      Position pos = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      debugPrint("LAT: ${pos.latitude}, LNG: ${pos.longitude}");
+      setState(() {
+        position = pos;
+      });
+    } catch (e) {
+      debugPrint("ERROR LOCATION: $e");
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    //getLocation();
+    getLocation();
     startClock();
     getProfile();
   }
@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
   // }
 
   Widget profileCard() {
-  debugPrint("Error: ${errorMsg}");
+  debugPrint("Error: $errorMsg");
   return Container(
     width: double.infinity, 
     margin: const EdgeInsets.all(0),

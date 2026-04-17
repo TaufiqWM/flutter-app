@@ -40,6 +40,7 @@ class AppBarGlobal extends StatelessWidget implements PreferredSizeWidget {
           onSelected: (value) async {
             if (value == 'logout') {
               await AuthService.logout();
+              if (!context.mounted) return;
               Navigator.pushNamedAndRemoveUntil(
                 context,
                 '/login',
